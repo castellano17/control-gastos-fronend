@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { axiosEcommerce } from "../../utils/configAxios";
-import { setBudgetGlobal } from "./Budget.slice";
+//import { setBudgetGlobal } from "./Budget.slice";
 const initialState = {
   user: {
     id: 0,
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    country: "",
+    gender: "",
+    role: "",
+    status: "",
     createdAt: "",
     updatedAt: "",
   },
@@ -30,7 +33,7 @@ const { setUserInfoGlobal } = userInfoSlice.actions;
 
 export const loginUser = (data) => (dispatch) => {
   axiosEcommerce
-    .post("/users/login", data)
+    .post("/auth/login", data)
     .then((res) => {
       localStorage.setItem("userInfo", JSON.stringify(res.data));
       dispatch(setUserInfoGlobal(res.data));

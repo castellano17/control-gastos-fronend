@@ -24,3 +24,5 @@ const budgetSlice = createSlice({
 });
 
 export const { setBudgetGlobal, setChangeErrorStatus } = budgetSlice.actions;
+
+export default budgetSlice.reducer;

@@ -3,8 +3,10 @@ import "./App.css";
 import Home from "./pages/Home";
 import Header from "./pages/Header";
 import Login from "./pages/Login";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { token } = useSelector((store) => store.userInfo);
   return (
     <>
       <Header />
