@@ -3,16 +3,21 @@ import "./App.css";
 import Home from "./pages/Home";
 import Header from "./pages/Header";
 import Login from "./pages/Login";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import ProtectedUserLogged from "./App/ProtectedUserLogged";
 
 function App() {
+  const dispatch = useDispatch();
   const { token } = useSelector((store) => store.userInfo);
   return (
     <>
       <Header />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<ProtectedUserLogged />}>
+          <Route path="/" element={<Home />} />
+        </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
     </>

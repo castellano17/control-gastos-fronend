@@ -12,8 +12,8 @@ const Login = () => {
     token,
     user: { firstName, lastName },
   } = useSelector((store) => store.userInfo);
-  // console.log(token);
-  console.log(user, firstName);
+  //console.log(token);
+  // console.log(user, firstName);
 
   const dispatch = useDispatch();
 
