@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import "./styles/Login.css";
+import Swal from "sweetalert2";
 
 import { loginUser, userLogOut } from "../store/slices/useInfo.slice";
 
@@ -17,17 +18,50 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const submit = (data) => {
-    // console.log(data);
-    dispatch(loginUser(data));
-    reset({
-      email: "",
-      password: "",
-    });
+  const submit = async (data) => {
+    const { email, password } = data;
+
+    if (!email || !password) {
+      showAlert("error", "Todos los campos son obligatorios");
+      return;
+    }
+
+    try {
+      await dispatch(loginUser(data));
+      reset({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        showAlert("error", "Usuario o clave incorrecta");
+      } else {
+        showAlert("error", "Error en el inicio de sesión");
+      }
+    }
   };
 
   const handleLogOut = () => {
     dispatch(userLogOut());
+  };
+
+  const showAlert = (type, message) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: type,
+      title: message,
+    });
   };
 
   return (
