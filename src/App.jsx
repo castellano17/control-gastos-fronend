@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import { useDispatch, useSelector } from "react-redux";
 
 import ProtectedUserLogged from "./App/ProtectedUserLogged";
+import SignUp from "./pages/SignUp";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
   );

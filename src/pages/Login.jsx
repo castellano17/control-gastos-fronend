@@ -5,9 +5,12 @@ import "./styles/Login.css";
 import Swal from "sweetalert2";
 
 import { loginUser, userLogOut } from "../store/slices/useInfo.slice";
+import { Link } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [loading, setLoading] = useState(false);
 
   const {
     token,
@@ -27,7 +30,9 @@ const Login = () => {
     }
 
     try {
+      setLoading(true);
       await dispatch(loginUser(data));
+
       reset({
         email: "",
         password: "",
@@ -38,6 +43,8 @@ const Login = () => {
       } else {
         showAlert("error", "Error en el inicio de sesión");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,7 +73,9 @@ const Login = () => {
 
   return (
     <main className="login">
-      {token ? (
+      {loading ? (
+        <Loader />
+      ) : token ? (
         <section className="login__logged__container">
           <i className="login__logged__icon bx bxs-user-circle"></i>
           <h3 className="login__logged__name">
@@ -115,7 +124,9 @@ const Login = () => {
           <button className="login-form__btn">Login</button>
           <p className="login-form__footerText">
             Don't have an account?
-            <span>{/* <Link to="/signup"> Sign Up</Link> */}</span>
+            <span>
+              <Link to="/SignUp"> Sign Up</Link>
+            </span>
           </p>
         </form>
       )}

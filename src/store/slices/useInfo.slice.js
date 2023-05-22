@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { axiosEcommerce } from "../../utils/configAxios";
-//import { setBudgetGlobal } from "./Budget.slice";
+import { setBudgetGlobal } from "./Budget.slice";
+
 const initialState = {
   user: {
     id: 0,
@@ -50,7 +51,7 @@ export const loginUser = (data) => (dispatch) => {
 export const userLogOut = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch(setUserInfoGlobal(initialState));
-  // dispatch(setBudgetGlobal([]));
+  dispatch(setBudgetGlobal(0));
 };
 
 export const signup = (data) => (dispatch) => {
@@ -60,7 +61,7 @@ export const signup = (data) => (dispatch) => {
       localStorage.setItem("userInfo", JSON.stringify(res.data));
       dispatch(setUserInfoGlobal(res.data));
       dispatch(setUserInfoGlobal(initialState));
-      //   dispatch(setBudgetGlobal([]));
+      dispatch(setBudgetGlobal(0));
     })
     .catch((err) => console.log(err));
 };
