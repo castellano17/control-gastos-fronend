@@ -1,32 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBudget, setBudgetGlobal } from "../store/slices/Budget.slice";
+import {
+  getAllBudget,
+  setBudgetGlobal,
+  newBudget,
+} from "../store/slices/Budget.slice";
 
 const Home = () => {
-  const budgetFromLocalStorage = parseInt(localStorage.getItem("budget"));
-  const [budget, setBudget] = useState(budgetFromLocalStorage || 0);
   const dispatch = useDispatch();
+  const budget = useSelector((store) => store.budget.total);
+  const [inputBudget, setInputBudget] = useState("");
+
+  useEffect(() => {
+    if (budget) {
+      setInputBudget(budget.toString());
+    }
+  }, [budget]);
 
   useEffect(() => {
     dispatch(getAllBudget);
   }, [dispatch]);
 
   const handleBudgetChange = (e) => {
-    const newBudget = Number(e.target.value);
-    setBudget(newBudget);
-    localStorage.setItem("budget", newBudget);
+    setInputBudget(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newBudgetValue = parseFloat(inputBudget);
+    if (!isNaN(newBudgetValue)) {
+      dispatch(newBudget(null, { total: newBudgetValue }));
+    }
   };
 
   return (
-    <div className="container-budget container shadow ">
-      <form className="form">
+    <div className="container-budget container shadow">
+      <form className="form" onSubmit={handleSubmit}>
         <div className="field">
           <label>Definir Presupuesto</label>
           <input
             className="new-budget"
-            type="Number"
+            type="number"
             placeholder="Añade tu presupuesto"
-            value={budget}
+            value={inputBudget}
             onChange={handleBudgetChange}
           />
         </div>

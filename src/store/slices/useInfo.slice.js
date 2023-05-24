@@ -51,7 +51,8 @@ export const loginUser = (data) => (dispatch) => {
 export const userLogOut = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch(setUserInfoGlobal(initialState));
-  dispatch(setBudgetGlobal(0));
+  localStorage.removeItem("budget");
+  dispatch(setBudgetGlobal(initialState));
 };
 
 export const signup = (data) => (dispatch) => {
@@ -61,7 +62,7 @@ export const signup = (data) => (dispatch) => {
       localStorage.setItem("userInfo", JSON.stringify(res.data));
       dispatch(setUserInfoGlobal(res.data));
       dispatch(setUserInfoGlobal(initialState));
-      dispatch(setBudgetGlobal(0));
+      dispatch(setBudgetGlobal(initialState));
     })
     .catch((err) => console.log(err));
 };
