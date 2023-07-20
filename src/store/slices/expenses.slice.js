@@ -24,7 +24,7 @@ export const { setExpensesGlobal, setChangeErrorStatus } = expenseSlice.actions;
 export const getAllExpenses = () => (dispatch) => {
   axiosEcommerce
     .get("/expenses", getConfig())
-    .then((res) => dispatch(setExpensesGlobal(res.data)))
+    .then((res) => dispatch(setExpensesGlobal(res.data.results)))
     .catch((err) => console.log(err));
 };
 

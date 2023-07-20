@@ -14,6 +14,7 @@ import BudgetControl from "./components/BudgetControl";
 import Loader from "./components/Loader";
 import Modal from "./components/Modal";
 import { addExpense } from "./store/slices/expenses.slice";
+import ListExpenses from "./components/ListExpenses";
 
 function App() {
   const dispatch = useDispatch();
@@ -128,27 +129,6 @@ function App() {
     <>
       <Header />
 
-      {isValidBudget && (
-        <div className="new-expense">
-          <img
-            src={IconNewExpense}
-            alt="Icon New Expense"
-            onClick={handleNewExpense}
-          />
-        </div>
-      )}
-
-      {modal && (
-        <Modal
-          setModal={setModal}
-          animateModal={animateModal}
-          setAnimateModal={setAnimateModal}
-          SaveExpense={SaveExpense}
-          expenseEdit={expenseEdit}
-          setExpenseEdit={setExpenseEdit}
-        />
-      )}
-
       <Routes>
         <Route element={<ProtectedUserLogged />}>
           <Route
@@ -165,6 +145,32 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
+
+      {isValidBudget && (
+        <>
+          <main>
+            <ListExpenses />
+          </main>
+          <div className="new-expense">
+            <img
+              src={IconNewExpense}
+              alt="Icon New Expense"
+              onClick={handleNewExpense}
+            />
+          </div>
+        </>
+      )}
+
+      {modal && (
+        <Modal
+          setModal={setModal}
+          animateModal={animateModal}
+          setAnimateModal={setAnimateModal}
+          SaveExpense={SaveExpense}
+          expenseEdit={expenseEdit}
+          setExpenseEdit={setExpenseEdit}
+        />
+      )}
     </>
   );
 }
