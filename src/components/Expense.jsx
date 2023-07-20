@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategory } from "../store/slices/categories.slice";
+import objetIcons from "../utils/objetIcons";
+import iconDefault from "../img/iconDefault.svg";
+
+// Imagen por defecto para categorías no definidas en objetIcons
+const defaultIcon = iconDefault;
 
 const Expense = ({ expense }) => {
   const { categoryId, nameExpenses, amount } = expense;
@@ -22,11 +27,21 @@ const Expense = ({ expense }) => {
     dispatch(getAllCategory());
   }, [dispatch]);
 
+  // Obtener la imagen correspondiente a la categoría o usar la imagen por defecto
+  // la variable isCategoryInIcons verifica si la categoría existe en el objetIcons
+  const isCategoryInIcons = category
+    ? category.nameCategory.toLowerCase() in objetIcons
+    : false;
+
+  const categoryIcon = isCategoryInIcons
+    ? objetIcons[category.nameCategory.toLowerCase()]
+    : defaultIcon;
+
   return (
     <div className="expense shadow">
-      {/* Imagen */}
-      <img src={objetIcons[category]} alt="Icons Gasto" />
       <div className="conten-expense">
+        {/* Imagen */}
+        <img src={categoryIcon} alt="Icons Gasto" />
         <div className="description-expense">
           <p className="category">{categoryName}</p>
           <p className="name-expense">{nameExpenses}</p>

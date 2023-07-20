@@ -126,7 +126,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className={modal ? "set" : ""}>
       <Header />
 
       <Routes>
@@ -171,7 +171,7 @@ function App() {
           setExpenseEdit={setExpenseEdit}
         />
       )}
-    </>
+    </div>
   );
 }
 
