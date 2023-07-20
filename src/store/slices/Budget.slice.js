@@ -5,7 +5,7 @@ import { axiosEcommerce, getConfig } from "../../utils/configAxios";
 const initialState = {
   budget: {
     id: "",
-    total: "",
+    total: 0,
   },
   error: false,
 };
@@ -24,23 +24,36 @@ const budgetSlice = createSlice({
 
 export const { setBudgetGlobal } = budgetSlice.actions;
 
-export const getAllBudget = (dispatch) => {
-  axiosEcommerce
-    .get("/users/budget/total", getConfig())
-    .then((res) => {
-      // const totalBudget = parseInt(res.data.total);
-      localStorage.setItem("budget", JSON.stringify(res.data));
-      dispatch(setBudgetGlobal({ budget: res.data }));
-      //dispatch(setBudgetGlobal(initialState));
-    })
-    .catch((err) => console.log(err));
+export const getAllBudget = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axiosEcommerce.get(
+        "/users/budget/total",
+        getConfig()
+      );
+      const budgetData = response.data;
+      localStorage.setItem("budget", JSON.stringify(budgetData));
+      dispatch(setBudgetGlobal(budgetData));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
-
-export const newBudget = (id, data) => (dispatch) => {
-  axiosEcommerce
-    .patch(`/users/budget/total/${id}`, data, getConfig())
-    .then((res) => dispatch(getAllBudget()))
-    .catch((err) => console.log(err));
+//modifica el presupuesto del usuario logueado
+export const newBudget = (data) => {
+  return async (dispatch, getState) => {
+    const budgetId = getState().budget.id;
+    try {
+      await axiosEcommerce.patch(
+        `/users/budget/total/${budgetId}`,
+        data,
+        getConfig()
+      );
+      dispatch(getAllBudget());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
 
 export default budgetSlice.reducer;
