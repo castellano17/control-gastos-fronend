@@ -62,9 +62,9 @@ const BudgetControl = ({ setIsValidBudget }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Si el usuario hace clic en el botón de confirmación
-        dispatch(newBudget({ total: 0 }));
+        dispatch(newBudget({ total: Number(0) }));
         dispatch(deleteAllExpenses());
-        setIsValidBudget(true);
+        setIsValidBudget(false);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }
     });
