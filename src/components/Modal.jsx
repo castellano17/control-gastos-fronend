@@ -15,15 +15,12 @@ const Modal = ({
   const [nameExpenses, setNameExpenses] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [id, setId] = useState("");
+
   const dispatch = useDispatch();
 
   // Use useSelector to get the categories from the global state
   const categories = useSelector((state) => state.category.category);
-
-  useEffect(() => {
-    if (Object.keys(expenseEdit).length > 0) {
-    }
-  }, [expenseEdit]);
 
   useEffect(() => {
     // Llama a la función para obtener todas las categorías cuando el componente se monte
@@ -35,8 +32,9 @@ const Modal = ({
       setNameExpenses(expenseEdit.nameExpenses);
       setAmount(expenseEdit.amount);
       setCategory(expenseEdit.categoryId);
+      setId(expenseEdit.id);
     }
-  }, [expenseEdit]);
+  }, []);
 
   const hideModal = () => {
     setAnimateModal(false);
@@ -56,22 +54,20 @@ const Modal = ({
         title: "Error",
         text: "Todos los campos son obligatorios",
       });
-      setTimeout(() => {
-        setMessage("");
-      }, 2000);
+      setTimeout(() => {}, 2000);
       return;
     }
 
     // Envia a la función SaveExpense el objeto para guardar el gasto
-    SaveExpense({ nameExpenses, amount, categoryId: category });
+    SaveExpense({ nameExpenses, amount, categoryId: category, id });
   };
 
   return (
     <div className="modal">
+      {" "}
       <div className="close-modal">
         <img src={closeBtn} alt="Cerrar modal" onClick={hideModal} />
       </div>
-
       <form
         onSubmit={handleSubmit}
         className={`form ${animateModal ? "animate" : "close"}`}

@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllExpenses } from "../store/slices/expenses.slice";
 import Expense from "./Expense";
 
-const ListExpenses = () => {
+const ListExpenses = ({
+  setExpenseEdit,
+  deleteExpense,
+  filter,
+  expensesFilters,
+}) => {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.expenses.expenses);
 
@@ -13,11 +18,37 @@ const ListExpenses = () => {
 
   return (
     <div className="list-expenses container">
-      <h2>{expenses.length ? "Gastos" : "No hay gastos aún"}</h2>
+      {filter ? (
+        <>
+          <h2>
+            {expensesFilters.length
+              ? "Gastos"
+              : "No hay gastos en esta categoría"}
+          </h2>
 
-      {expenses.map((expense) => (
-        <Expense key={expense.id} expense={expense} />
-      ))}
+          {expensesFilters.map((expense) => (
+            <Expense
+              key={expense.id}
+              expense={expense}
+              setExpenseEdit={setExpenseEdit}
+              deleteExpense={deleteExpense}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          <h2>{expenses.length ? "Gastos" : "No hay gastos aún"}</h2>
+
+          {expenses.map((expense) => (
+            <Expense
+              key={expense.id}
+              expense={expense}
+              setExpenseEdit={setExpenseEdit}
+              deleteExpense={deleteExpense}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 };

@@ -13,24 +13,24 @@ import { getAllBudget, newBudget } from "./store/slices/Budget.slice";
 import BudgetControl from "./components/BudgetControl";
 import Loader from "./components/Loader";
 import Modal from "./components/Modal";
-import { addExpense } from "./store/slices/expenses.slice";
+import {
+  addExpense,
+  updateExpense,
+  deleteExpenses,
+} from "./store/slices/expenses.slice";
 import ListExpenses from "./components/ListExpenses";
+import Filters from "./components/Filters";
 
 function App() {
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.userInfo);
+  const expenses = useSelector((state) => state.expenses.expenses);
 
   const [budget, setBudget] = useState(0);
   const [isValidBudget, setIsValidBudget] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
-  //recibe los gastos del modal
-  const [expenses, setExpenses] = useState(
-    localStorage.getItem("expenses")
-      ? JSON.parse(localStorage.getItem("expenses"))
-      : []
-  );
 
   const [expenseEdit, setExpenseEdit] = useState({});
 
@@ -39,6 +39,7 @@ function App() {
 
   useEffect(() => {
     if (Object.keys(expenseEdit).length > 0) {
+      //verifica si el estado: expenseEdit tiene algo entonces manda a llamar al modal
       setModal(true);
 
       setTimeout(() => {
@@ -51,15 +52,15 @@ function App() {
     if (filter) {
       //Filtrar gastos por categoría
       const expensesFilters = expenses.filter(
-        (expense) => expense.category === filter
+        (expense) => expense.categoryId === filter
       );
       setExpensesFilters(expensesFilters);
     }
   }, [filter]);
 
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses) ?? []);
-  }, [expenses]);
+  // useEffect(() => {
+  //   localStorage.setItem("expenses", JSON.stringify(expenses) ?? []);
+  // }, [expenses]);
 
   useEffect(() => {
     if (token) {
@@ -93,16 +94,20 @@ function App() {
   const SaveExpense = (expense) => {
     if (expense.id) {
       //Actualizar
-      const expensesUpdates = expenses.map((expenseState) =>
-        expenseState.id === expense.id ? expense : expenseState
-      );
-      setExpenses(expensesUpdates);
+      // const expensesUpdates = expenses.map((expenseState) =>
+      //   expenseState.id === expense.id ? expense : expenseState
+      // );
+      const { nameExpenses, amount, categoryId } = expense;
+      const expense2 = { nameExpenses, amount, categoryId };
+
+      dispatch(updateExpense(expense.id, expense2));
+      setExpenseEdit({});
     } else {
-      const updateBudget = budget - expense.amount;
+      //   const updateBudget = budget - expense.amount;
       //Nuevo Gasto
       dispatch(addExpense(expense));
       //restar el gasto al presupuesto
-      dispatch(newBudget({ total: updateBudget }));
+      // dispatch(newBudget({ total: updateBudget }));
     }
 
     setAnimateModal(false);
@@ -113,8 +118,9 @@ function App() {
   };
 
   const deleteExpense = (id) => {
-    const expensesUpdates = expenses.filter((expense) => expense.id !== id);
-    setExpenses(expensesUpdates);
+    dispatch(deleteExpenses(id));
+    // const expensesUpdates = expenses.filter((expense) => expense.id !== id);
+    // setExpenses(expensesUpdates);
   };
 
   if (isLoading) {
@@ -135,7 +141,7 @@ function App() {
             path="/"
             element={
               isValidBudget ? (
-                <BudgetControl />
+                <BudgetControl setIsValidBudget={setIsValidBudget} />
               ) : (
                 <Home setIsValidBudget={setIsValidBudget} />
               )
@@ -149,7 +155,13 @@ function App() {
       {isValidBudget && (
         <>
           <main>
-            <ListExpenses />
+            <Filters filter={filter} setFilter={setFilter} />
+            <ListExpenses
+              setExpenseEdit={setExpenseEdit}
+              deleteExpense={deleteExpense}
+              filter={filter}
+              expensesFilters={expensesFilters}
+            />
           </main>
           <div className="new-expense">
             <img

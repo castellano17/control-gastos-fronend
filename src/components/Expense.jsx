@@ -1,14 +1,24 @@
 import React, { useEffect } from "react";
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions,
+} from "react-swipeable-list";
+import "react-swipeable-list/dist/styles.css";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCategory } from "../store/slices/categories.slice";
 import objetIcons from "../utils/objetIcons";
 import iconDefault from "../img/iconDefault.svg";
+import { formatDate } from "../utils/FormatAmount";
 
 // Imagen por defecto para categorías no definidas en objetIcons
 const defaultIcon = iconDefault;
 
-const Expense = ({ expense }) => {
-  const { categoryId, nameExpenses, amount } = expense;
+const Expense = ({ expense, setExpenseEdit, deleteExpense }) => {
+  const { categoryId, nameExpenses, amount, createdAt, id } = expense;
   const dispatch = useDispatch();
 
   // Obtener la lista de categorías del estado global
@@ -37,22 +47,43 @@ const Expense = ({ expense }) => {
     ? objetIcons[category.nameCategory.toLowerCase()]
     : defaultIcon;
 
+  const leadingActions = () => (
+    <LeadingActions>
+      <SwipeAction onClick={() => setExpenseEdit(expense)}>Editar</SwipeAction>
+    </LeadingActions>
+  );
+
+  const trailingActions = () => (
+    <TrailingActions>
+      <SwipeAction onClick={() => deleteExpense(id)} destructive={true}>
+        Eliminar
+      </SwipeAction>
+    </TrailingActions>
+  );
+
   return (
-    <div className="expense shadow">
-      <div className="conten-expense">
-        {/* Imagen */}
-        <img src={categoryIcon} alt="Icons Gasto" />
-        <div className="description-expense">
-          <p className="category">{categoryName}</p>
-          <p className="name-expense">{nameExpenses}</p>
-          <p className="date-expense">
-            Agregado el: {""}
-            <span>fecha</span>
-          </p>
+    <SwipeableList>
+      <SwipeableListItem
+        leadingActions={leadingActions()}
+        trailingActions={trailingActions()}
+      >
+        <div className="expense shadow">
+          <div className="conten-expense">
+            {/* Imagen */}
+            <img src={categoryIcon} alt="Icons Gasto" />
+            <div className="description-expense">
+              <p className="category">{categoryName}</p>
+              <p className="name-expense">{nameExpenses}</p>
+              <p className="date-expense">
+                Agregado el: {""}
+                <span>{formatDate(createdAt)}</span>
+              </p>
+            </div>
+          </div>
+          <p className="amount-expense">${amount}</p>
         </div>
-      </div>
-      <p className="amount-expense">${amount}</p>
-    </div>
+      </SwipeableListItem>
+    </SwipeableList>
   );
 };
 
