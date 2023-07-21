@@ -81,7 +81,7 @@ function App() {
   }, [dispatch, token]);
 
   useEffect(() => {
-    setIsValidBudget(budget > 0);
+    setIsValidBudget((budget) => 0);
   }, [budget]);
 
   const handleNewExpense = () => {
