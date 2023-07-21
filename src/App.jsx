@@ -28,15 +28,10 @@ function App() {
 
   const [budget, setBudget] = useState(0);
   const [isValidBudget, setIsValidBudget] = useState(false);
-  console.log("useState 2:", "setIsvalidBudget");
-  const [isLoading, setIsLoading] = useState(true);
-  console.log("useState 3:", "setIsLoading");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
-
   const [expenseEdit, setExpenseEdit] = useState({});
-
   const [filter, setFilter] = useState("");
   const [expensesFilters, setExpensesFilters] = useState([]);
 
