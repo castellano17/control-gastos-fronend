@@ -25,10 +25,8 @@ function App() {
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.userInfo);
   const expenses = useSelector((state) => state.expenses.expenses);
-
   const [budget, setBudget] = useState(0);
   const [isValidBudget, setIsValidBudget] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
   const [expenseEdit, setExpenseEdit] = useState({});
@@ -69,9 +67,9 @@ function App() {
 
       setBudget(total);
 
-      dispatch(getAllBudget()).then(() => {
-        setIsLoading(false);
-      });
+      // dispatch(getAllBudget()).then(() => {
+      //   setIsLoading(false);
+      // });
     }
   }, [dispatch, token]);
 
@@ -120,14 +118,6 @@ function App() {
     // const expensesUpdates = expenses.filter((expense) => expense.id !== id);
     // setExpenses(expensesUpdates);
   };
-
-  if (isLoading) {
-    return (
-      <div className="loader-container">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <div className={modal ? "set" : ""}>

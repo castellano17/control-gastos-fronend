@@ -74,14 +74,6 @@ header {
   background-color: var(--blue);
 }
 
-header h1 {
-  padding: 3rem 0;
-
-  color: var(--white);
-
-  text-transform: uppercase;
-}
-
 .form {
   width: 95%;
   margin: 0 auto;
@@ -296,6 +288,9 @@ main {
   font-size: 2.2rem;
 }
 
+.expenses__title {
+  margin-bottom: 8px;
+}
 .expense {
   display: flex;
   justify-content: space-between;
@@ -371,6 +366,9 @@ main {
   right: 0;
   bottom: 0;
   z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .modal .close-modal {
   position: absolute;
@@ -393,6 +391,12 @@ main {
   transition-timing-function: ease-in;
   opacity: 0;
 }
+@media (max-width: 480px) {
+  .modal .form {
+    max-width: 90%; /* Reducir el ancho del modal al 90% */
+  }
+}
+
 .modal label {
   color: var(--white);
 }

@@ -20,7 +20,7 @@ const ListExpenses = ({
     <div className="list-expenses container">
       {filter ? (
         <>
-          <h2>
+          <h2 className="expenses__title">
             {expensesFilters.length
               ? "Gastos"
               : "No hay gastos en esta categoría"}
@@ -37,7 +37,9 @@ const ListExpenses = ({
         </>
       ) : (
         <>
-          <h2>{expenses.length ? "Gastos" : "No hay gastos aún"}</h2>
+          <h2 className="expenses__title">
+            {expenses.length ? "Gastos" : "No hay gastos aún"}
+          </h2>
 
           {expenses.map((expense) => (
             <Expense

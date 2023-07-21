@@ -34,11 +34,14 @@ export const getAllBudget = () => {
       const budgetData = response.data;
       localStorage.setItem("budget", JSON.stringify(budgetData));
       dispatch(setBudgetGlobal(budgetData));
+      return budgetData; // Devolvemos los datos del presupuesto para control adicional
     } catch (error) {
-      console.log(error);
+      console.log("Error al obtener el presupuesto:", error);
+      throw error; // Lanzamos el error para manejarlo en el componente que llama a esta función
     }
   };
 };
+
 //modifica el presupuesto del usuario logueado
 export const newBudget = (data) => {
   return async (dispatch, getState) => {
