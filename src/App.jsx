@@ -30,6 +30,8 @@ function App() {
   const [isValidBudget, setIsValidBudget] = useState(false);
   console.log("useState 2:", "setIsvalidBudget");
   const [isLoading, setIsLoading] = useState(true);
+  console.log("useState 3:", "setIsLoading");
+
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
 
