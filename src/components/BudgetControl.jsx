@@ -80,7 +80,10 @@ const BudgetControl = ({ setIsValidBudget }) => {
             textColor: percentage > 100 ? "#DC2626" : "#3B82F6",
           })}
           value={percentage}
-          text={`${percentage}% Gastado`}
+          text={
+            // Conditionally show the appropriate text
+            percentage > 0 ? `${percentage}% Gastado` : `${0}% Gastado`
+          }
         />
       </div>
       <div className="conten-budget">
