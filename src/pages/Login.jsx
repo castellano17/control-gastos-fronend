@@ -96,7 +96,7 @@ const Login = () => {
               <i className="bx bx-envelope"></i>esmir@gmail.com
             </div>
             <div className="login-form__passwordTest">
-              <i className="bx bx-lock-alt"></i>root
+              <i className="bx bx-lock-alt"></i>Esmir123
             </div>
           </div>
 

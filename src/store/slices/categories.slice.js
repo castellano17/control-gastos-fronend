@@ -29,4 +29,11 @@ export const getAllCategory = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+export const addCategory = (data) => (dispatch) => {
+  axiosEcommerce
+    .post("/category/new", data, getConfig())
+    .then((res) => dispatch(getAllCategory()))
+    .catch((err) => console.log(err));
+};
+
 export default categorySlice.reducer;

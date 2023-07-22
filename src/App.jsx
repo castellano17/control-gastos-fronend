@@ -11,7 +11,6 @@ import SignUp from "./pages/SignUp";
 import { useEffect, useState } from "react";
 import { getAllBudget, newBudget } from "./store/slices/Budget.slice";
 import BudgetControl from "./components/BudgetControl";
-import Loader from "./components/Loader";
 import Modal from "./components/Modal";
 import {
   addExpense,

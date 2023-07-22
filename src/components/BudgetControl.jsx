@@ -20,10 +20,10 @@ const BudgetControl = ({ setIsValidBudget }) => {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.expenses.expenses);
 
-  const [currentBudget, setCurrentBudget] = useState(total);
+  const [currentBudget, setCurrentBudget] = useState(parseFloat(total));
 
   useEffect(() => {
-    setCurrentBudget(total);
+    setCurrentBudget(parseFloat(total));
   }, [total]);
 
   useEffect(() => {
