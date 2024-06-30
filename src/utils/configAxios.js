@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosEcommerce = axios.create({
-  baseURL: "https://controlgastos.onrender.com/api/v1",
+  baseURL: "https://control-gastos-ftbn.onrender.com/api/v1",
 });
 
 export const getConfig = () => {
